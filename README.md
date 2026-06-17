@@ -63,11 +63,11 @@ log-parser summarize \
 # Access Log Summary
 
 ## Metadata
-- Source file: ...
-- Total lines: ...
-- Parsed lines: ...
-- Skipped lines: ...
-- Generated at: ...
+- Source file: /var/log/nginx/access.log
+- Total lines: 10,000
+- Parsed lines: 9,870
+- Skipped lines: 130
+- Generated at: 2026-06-17 14:30:00 UTC
 
 ## Top IP Addresses
 | IP Address | Requests |
