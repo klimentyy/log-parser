@@ -1,28 +1,47 @@
 from argparse import ArgumentParser
 import logging
 
-args = ArgumentParser()
-args.add_help(description="""
-Log Parser
-Tool that reads raw log files, extract key log metrics, and outputs Markdown report summary.
-""")
-required_args = args.add_argument_group("required arguments", required=True)
-required_args.add_argument("-f", "--file", help="Path to the input log file.", type=str)
+from parser.parser import LogParser
 
-optional_args = args.add_argument_group("optional arguments", required=False)
+argument_parser = ArgumentParser(add_help=True)
+argument_parser.description = """
+Log Parser CLI Tool
+Tool that reads raw log files, extract key log metrics, and outputs Markdown report summary.
+"""
+
+required_args = argument_parser.add_argument_group("required arguments")
+required_args.add_argument(
+    "-f", "--file", help="Path to the input log file.", required=True, type=str
+)
+
+optional_args = argument_parser.add_argument_group("optional arguments")
 optional_args.add_argument(
-    "-o", "--output", help="Path to the output Markdown report file.", type=str
+    "-o",
+    "--output",
+    help="Path to the output Markdown report file.",
+    required=False,
+    type=str,
 )
 optional_args.add_argument(
-    "-t", "--threshold", help="Threshold for log metrics.", type=int, default=0
+    "-t",
+    "--threshold",
+    help="Threshold for log metrics.",
+    required=False,
+    type=int,
+    default=0,
 )
 optional_args.add_argument(
-    "-l", "--log-level", help="Set the logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL).", type=str, default="INFO"
+    "-l",
+    "--log-level",
+    help="Set the logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL).",
+    required=False,
+    type=str,
+    default="INFO",
 )
 
 
 def main():
-    args = args.parse_args()
+    args = argument_parser.parse_args()
     log_file_path = args.file
     output_file_path = args.output
     threshold = args.threshold
@@ -40,7 +59,6 @@ def main():
     logger.info(f"Parsing log file: {log_file_path}")
     logger.info(f"Output report will be saved to: {output_file_path}")
     logger.info(f"Using threshold: {threshold}")
-
 
 
 
