@@ -60,6 +60,10 @@ def main():
     logger.info(f"Output report will be saved to: {output_file_path}")
     logger.info(f"Using threshold: {threshold}")
 
+    parser = LogParser(
+        log_file_path, output_file_path, threshold, log_level=chosen_level
+    )
+    parser.parse()
 
 
 if __name__ == "__main__":
