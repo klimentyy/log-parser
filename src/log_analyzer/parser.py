@@ -42,9 +42,32 @@ class LogParser:
 
     def _extract_status_code(self, line: str) -> Optional[str]:
         # search for status code in the format "Http/1.1" 200
-        match = re.search(r' "\s+(\d{3})\s', line)
+        match = re.search(r'" (\d{3}) ', line)
         return match.group(1) if match else None
 
     def generate_report(self):
-        # Placeholder for report generation logic
-        pass
+        if self.output_file_path:
+            output_path = Path(self.output_file_path)
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+
+            with open(self.output_file_path, "w") as f:
+                f.write(f"Total log entries: {sum(self.ip_counter.values())}\n")
+                f.write(f"Entries above threshold: {sum(1 for count in self.ip_counter.values() if count > self.threshold)}\n")
+                f.write(f"Corrupted lines: {self.corrupted_lines}\n")
+                f.write("\nIP Address Counts:\n")
+                for ip, count in self.ip_counter.items():
+                    f.write(f"{ip}: {count}\n")
+                f.write("\nStatus Code Counts:\n")
+                for code, count in self.status_code_counter.items():
+                    f.write(f"{code}: {count}\n")
+        else:
+            print(f"Total log entries: {sum(self.ip_counter.values())}")
+            print(f"Entries above threshold: {sum(1 for count in self.ip_counter.values() if count > self.threshold)}")
+            print(f"Corrupted lines: {self.corrupted_lines}")
+            print("\nIP Address Counts:")
+            for ip, count in self.ip_counter.items():
+                print(f"{ip}: {count}")
+            print("\nStatus Code Counts:")
+            for code, count in self.status_code_counter.items():
+                print(f"{code}: {count}")
+        

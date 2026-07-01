@@ -1,7 +1,7 @@
 from argparse import ArgumentParser
 import logging
 
-from parser.parser import LogParser
+from .parser import LogParser
 
 argument_parser = ArgumentParser(add_help=True)
 argument_parser.description = """
